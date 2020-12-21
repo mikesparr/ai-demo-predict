@@ -30,7 +30,15 @@ gcloud pubsub subscriptions create feedback-sub --topic $TOPIC_ID
 # enable services
 gcloud services enable compute.googleapis.com \
     run.googleapis.com \
+    redis.googleapis.com \
     cloudbuild.googleapis.com
+
+# fetch cache (memorystore: redis w/ vpc connector) info
+# assume cache and vpc connector already created with backend processors
+export REDIS_HOST=$(gcloud redis instances describe ml-cache1 --region us-central1 --format="value(host)")
+export REDIS_PORT=$(gcloud redis instances describe ml-cache1 --region us-central1 --format="value(port)")
+export AUTH_NETWORK=$(gcloud redis instances describe ml-cache1 --region us-central1 --format="value(authorizedNetwork)")
+echo "Redis instance at ${REDIS_HOST}:${REDIS_PORT} on network ${AUTH_NETWORK}"
 
 # clone repo and change to directory
 git clone git@github.com:mikesparr/ai-demo-predict.git
@@ -46,7 +54,7 @@ gcloud run deploy ai-demo-predict \
     --allow-unauthenticated \
     --platform managed \
     --vpc-connector $VPC_CONN_NAME \
-    --update-env-vars PROJECT_ID=$PROJECT_ID,TOPIC_ID=$TOPIC_ID
+    --update-env-vars PROJECT_ID=$PROJECT_ID,TOPIC_ID=$TOPIC_ID,REDISHOST=$REDIS_HOST,REDISPORT=$REDIS_PORT
 ```
 
 # Usage
