@@ -2,14 +2,8 @@
 This API accepts user submission of one or more bank notes for analysis. This is created for
 demo purposes using [go-chi](https://github.com/go-chi/chi) HTTP framework for Golang.
 
-# Demo (prediction)
-![API Demo (prediction)](./demo-prediction.gif)
-
-# Demo (feedback)
-![API Demo (feedback)](./demo-feedback.gif)
-
-# Demo (jobs)
-![API Demo (jobs)](./demo-jobs.gif)
+# Demo (prediction and feedback)
+![API Demo](./demo.gif)
 
 # Prerequisites
 You must be familiar with Google Cloud Platform and have the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) (`gcloud` CLI) installed. 
