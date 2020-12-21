@@ -1,6 +1,6 @@
 # AI Demo API (batch note review)
-This API accepts user submission of one or more bank notes for analysis. This is created for
-demo purposes using [go-chi](https://github.com/go-chi/chi) HTTP framework for Golang.
+This API views batch predictions submitted by [ingest API](https://github.com/mikesparr/ai-demo-ingest) and allows the user to submit feedback, or corrections, to predictions to trigger model retraining jobs. This is 
+created for demo purposes using [go-chi](https://github.com/go-chi/chi) HTTP framework for Golang.
 
 # Demo (prediction, feedback, and retrain job)
 ![API Demo](./demo.gif)
