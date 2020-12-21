@@ -2,7 +2,7 @@
 This API accepts user submission of one or more bank notes for analysis. This is created for
 demo purposes using [go-chi](https://github.com/go-chi/chi) HTTP framework for Golang.
 
-# Demo (prediction and feedback)
+# Demo (prediction, feedback, and retrain job)
 ![API Demo](./demo.gif)
 
 # Prerequisites
