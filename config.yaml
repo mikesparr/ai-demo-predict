@@ -1,0 +1,155 @@
+swagger: "2.0"
+info:
+  title: predictions
+  description: "AI predictions API with training and model analysis."
+  version: "1.0.0"
+#host: DNS_NAME_OF_DEPLOYED_API
+schemes:
+  - "http" # change to https for real workloads
+paths:
+  "/batches":
+    get:
+      summary: "Lists batches of predictions"
+      operationId: "getBatches"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/BatchList"
+        400:
+          description: Invalid request.
+        404:
+          description: No batches were found.
+        default:
+          description: Unexpected error
+  "/batches/{batchId}":
+    patch:
+      summary: "Sends feedback on accuracy (rating) for predictions in a given batch."
+      operationId: "sendFeedback"
+      parameters:
+        - in: path
+          name: batchId
+          type: string
+          required: true
+          description: The batch ID
+        - in: body
+          name: batch
+          schema:
+            $ref: '#/definitions/BatchFeedback'
+          examples:
+            oneNote:
+              summary: Example of a single prediction
+              value: {"subjects": ["my-note-1"], "ratings": [1]}   # 1 rating per subject
+            multipleNotes:
+              summary: Example of multiple predictions
+              value: {
+                "subjects": ["my-note-1", "my-note-2", "my-note-3"],
+                "ratings": [1,0,1]
+              }
+      responses:
+        200:
+          description: OK
+        400:
+          description: The input is invalid (e.g. not json or wrong input).
+        404:
+          description: A user with the specified ID was not found.
+        405:
+          description: Method was not allowed.
+        default:
+          description: Unexpected error
+  "/jobs":
+    get:
+      summary: "Lists recent jobs in descending order (most recent first)"
+      operationId: "getJobs"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/JobList"
+        400:
+          description: Invalid request.
+        404:
+          description: No jobs were found.
+        default:
+          description: Unexpected error
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: '#/definitions/Error'
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: '#/definitions/Error'
+definitions:
+  BatchOutput:
+    properties:
+      subjects:
+        type: array
+        items:
+          type: string
+      predictions:
+        type: array
+        items:
+          type: string
+    required:
+      - subjects
+      - predictions
+  BatchFeedback:
+    properties:
+      subjects:
+        type: array
+        items:
+          type: string
+      ratings:
+        type: array
+        items:
+          type: integer
+    required:
+      - subjects
+      - ratings
+  Job:
+    properties:
+      job_id:
+        type: string
+      model_file_name:
+        type: string
+      records:
+        type: integer
+      accuracy:
+        type: float
+      data_prep_time:
+        type: float
+      training_time:
+        type: float
+      testing_time:
+        type: float
+    required:
+      - id
+      - model_file_name
+      - records
+      - accuracy
+  BatchList:
+    properties:
+      batches:
+        type: array
+        items:
+          schema:
+            $ref: '#/definitions/BatchOutput'
+  JobList:
+    properties:
+      jobs:
+        type: array
+        items:
+          schema:
+            $ref: '#/definitions/Job'
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - code
+      - message
