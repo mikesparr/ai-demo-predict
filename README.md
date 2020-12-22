@@ -88,5 +88,14 @@ curl -XPATCH $PREDICT_URL/batches/f913f035-431a-11eb-b467-b9171009f67c \
 # Spec
 See the OAS2/Swagger specification `config.yaml` for more details
 
+# Other considerations
+Although this is only a demo, a few additional features that should be added would be:
+- automated tests
+- standardized Request / Response
+- pagination
+- retry logic with exponential backoff
+- tracing using [opentracing](https://opentracing.io/)
+- messages using [cloudevents](https://cloudevents.io/)
+
 # Contributing
 This is just a demo so fork and use at your own discretion.
