@@ -29,6 +29,11 @@ func (bf *BatchFeedback) Bind(r *http.Request) error {
 	if len(bf.Ratings) != len(bf.Subjects) {
 		return fmt.Errorf("ratings count must equal subjects")
 	}
+	for _, rating := range bf.Ratings {
+		if !(rating == 1 || rating == 0) {
+			return fmt.Errorf("ratings must be a 1 or 0 value")
+		}
+	}
 	return nil
 }
 func (*BatchFeedback) Render(w http.ResponseWriter, r *http.Request) error {
