@@ -56,11 +56,11 @@ func updateBatch(w http.ResponseWriter, r *http.Request) {
 	if id, ok := batchId.(string); ok {
 		feedback.BatchID = id
 	} else {
-		render.Render(w, r, ErrBadRequest)
+		render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID must be string")))
 		return
 	}
 	if err := render.Bind(r, feedback); err != nil {
-		render.Render(w, r, ErrBadRequest)
+		render.Render(w, r, ErrorBadRequest(err))
 		return
 	}
 	if err := producer.UpdateBatch(feedback); err != nil {
