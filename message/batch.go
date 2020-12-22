@@ -10,12 +10,12 @@ import (
 	"cloud.google.com/go/pubsub"
 )
 
-func (producer Producer) UpdateBatch(br *models.BatchResponse) error {
+func (producer Producer) UpdateBatch(bf *models.BatchFeedback) error {
 	ctx := context.Background()
 	fmt.Println("I ran UpdateBatch !!!")
 
 	topic := producer.Topic
-	feedbackJson, err := json.Marshal(br)
+	feedbackJson, err := json.Marshal(bf)
 	if err != nil {
 		return err
 	}

@@ -50,7 +50,7 @@ func updateBatch(w http.ResponseWriter, r *http.Request) {
 	batchId := r.Context().Value(batchIDKey)
 	fmt.Printf("Updating batch (%s) with prediction ratings\n", batchId)
 
-	feedback := &models.BatchResponse{}
+	feedback := &models.BatchFeedback{}
 
 	// assert batchId is string and inject into feedback
 	if id, ok := batchId.(string); ok {

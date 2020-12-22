@@ -3,10 +3,10 @@ This API views batch predictions submitted by [ingest API](https://github.com/mi
 created for demo purposes using [go-chi](https://github.com/go-chi/chi) HTTP framework for Golang.
 
 # Demo (prediction, feedback, and retrain job)
-![API Demo](./demo.gif)
+![API Demo](./img_demo.gif)
 
 # Architecture
-![AI demo architecture](./arch.png)
+![AI demo architecture](./img_arch.png)
 
 # Components
 - [Config](https://#) (pending)
@@ -68,7 +68,7 @@ gcloud run deploy ai-demo-predict \
 ```
 
 # Usage
-Once deployed, you can fetch the `$API_URL` from Cloud Run and `GET`, `PATCH`, or `POST` data to the API. For updates, since it just publishes data to a Pub/Sub topic, you will just receive either the submitted record, or error message.
+Once deployed, you can fetch the `$PREDICT_URL` from Cloud Run and `GET` or `PATCH` data to the API. For updates, since it just publishes data to a Pub/Sub topic, you will just receive either the submitted record, or error message.
 
 ```bash
 # get URL of service
