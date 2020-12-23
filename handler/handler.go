@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	"github.com/mikesparr/ai-demo-predict/cache"
 	"github.com/mikesparr/ai-demo-predict/message"
@@ -13,8 +14,19 @@ var producer message.Producer
 
 func NewHandler(c cache.Client, p message.Producer) http.Handler {
 	router := chi.NewRouter()
+
 	client = c
 	producer = p
+
+	router.Use(cors.Handler(cors.Options{
+		// AllowedOrigins: []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
 	router.Route("/batches", batches)
