@@ -12,6 +12,7 @@ type Job struct {
 	DataPrepTime  float64 `json:"data_prep_time,omitempty"`
 	TrainingTime  float64 `json:"training_time,omitempty"`
 	TestingTime   float64 `json:"testing_time,omitempty"`
+	Created       string  `json:"created,omitempty"`
 }
 type JobList struct {
 	Jobs []Job `json:"jobs"`

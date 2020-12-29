@@ -9,6 +9,7 @@ type Batch struct {
 	BatchID     string   `json:"batch_id"`
 	Subjects    []string `json:"subjects"`
 	Predictions []string `json:"predictions"`
+	Created     string   `json:"created,omitempty"`
 }
 type BatchList struct {
 	Batches []Batch `json:"batches"`
