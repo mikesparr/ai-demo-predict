@@ -10,7 +10,7 @@ created for demo purposes using [go-chi](https://github.com/go-chi/chi) HTTP fra
 
 # Components
 - [Config](https://#) (pending)
-- [Web App](https://#) (pending)
+- [Web App](https://github.com/mikesparr/ai-demo-web)
 - [Ingest API](https://github.com/mikesparr/ai-demo-ingest)
 - [Predict API](https://github.com/mikesparr/ai-demo-predict) (this repo)
 - [Processors](https://github.com/mikesparr/ai-demo-functions)
