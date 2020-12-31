@@ -11,9 +11,10 @@ import (
 func (client Client) GetAllJobs() (*models.JobList, error) {
 	fmt.Println("Fetching training jobs !!!")
 
-	conn := client.Conn
+	conn := client.Pool.Get()
 	list := &models.JobList{}
 	const jobsKey = "jobs" // demo purpose only
+	defer conn.Close()
 
 	jobs, err := redis.Strings(conn.Do("LRANGE", jobsKey, 0, -1))
 	if err != nil {

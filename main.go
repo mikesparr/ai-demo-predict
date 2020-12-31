@@ -38,12 +38,11 @@ func main() {
 		os.Getenv("REDISHOST"),
 		os.Getenv("REDISPORT")
 	redisAddr := fmt.Sprintf("%s:%s", redisHost, redisPort)
-	const maxConnections = 1
+	const maxConnections = 100
 	client, err := cache.Initialize(redisAddr, maxConnections)
 	if err != nil {
 		log.Fatalf("Could not set up cache: %v", err)
 	}
-	defer client.Conn.Close()
 
 	// inject cache client and pubsub producer
 	httpHandler := handler.NewHandler(client, producer)

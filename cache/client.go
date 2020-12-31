@@ -8,7 +8,6 @@ import (
 
 type Client struct {
 	Pool *redis.Pool
-	Conn redis.Conn
 }
 
 var redisPool *redis.Pool
@@ -22,7 +21,6 @@ func Initialize(redisAddr string, maxConnections int) (Client, error) {
 	}, maxConnections)
 
 	client.Pool = redisPool
-	client.Conn = redisPool.Get()
 
 	fmt.Println("Redis connection pool initialized")
 	return client, nil

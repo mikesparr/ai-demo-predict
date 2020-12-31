@@ -11,9 +11,10 @@ import (
 func (client Client) GetAllBatches() (*models.BatchList, error) {
 	fmt.Println("Fetching batches of predictions !!!")
 
-	conn := client.Conn
+	conn := client.Pool.Get()
 	list := &models.BatchList{}
 	const batchKey = "batches" // demo purpose only
+	defer conn.Close()
 
 	batches, err := redis.Strings(conn.Do("LRANGE", batchKey, 0, -1))
 	if err != nil {
