@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	"github.com/mikesparr/ai-demo-predict/cache"
@@ -27,6 +28,7 @@ func NewHandler(c cache.Client, p message.Producer) http.Handler {
 		AllowCredentials: false,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
+	router.Use(middleware.Compress(5))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
 	router.Route("/batches", batches)
