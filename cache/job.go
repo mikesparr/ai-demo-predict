@@ -16,7 +16,7 @@ func (client Client) GetAllJobs() (*models.JobList, error) {
 	const jobsKey = "jobs" // demo purpose only
 	defer conn.Close()
 
-	jobs, err := redis.Strings(conn.Do("LRANGE", jobsKey, 0, -1))
+	jobs, err := redis.Strings(conn.Do("LRANGE", jobsKey, 0, 24)) // most recent 25
 	if err != nil {
 		fmt.Println("Error retrieving jobs list from cache")
 		return list, err

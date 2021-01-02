@@ -16,7 +16,7 @@ func (client Client) GetAllBatches() (*models.BatchList, error) {
 	const batchKey = "batches" // demo purpose only
 	defer conn.Close()
 
-	batches, err := redis.Strings(conn.Do("LRANGE", batchKey, 0, -1))
+	batches, err := redis.Strings(conn.Do("LRANGE", batchKey, 0, 99)) // most recent 100
 	if err != nil {
 		fmt.Println("Error retrieving batches list from cache")
 		return list, err
