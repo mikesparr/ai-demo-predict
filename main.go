@@ -60,6 +60,7 @@ func main() {
 	log.Println("Stopping API server.")
 }
 
+// Stop - safely shut down server
 func Stop(server *http.Server) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
