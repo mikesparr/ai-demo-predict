@@ -1,4 +1,5 @@
-# AI Demo API (batch note review)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mikesparr_ai-demo-predict&metric=alert_status)](https://sonarcloud.io/dashboard?id=mikesparr_ai-demo-predict)
+
 This API views batch predictions submitted by [ingest API](https://github.com/mikesparr/ai-demo-ingest) and allows the user to submit feedback, or corrections, to predictions to trigger model retraining jobs. This is 
 created for demo purposes using [go-chi](https://github.com/go-chi/chi) HTTP framework for Golang.
 
