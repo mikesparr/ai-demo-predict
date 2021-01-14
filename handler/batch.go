@@ -56,19 +56,31 @@ func updateBatch(w http.ResponseWriter, r *http.Request) {
 	if id, ok := batchId.(string); ok {
 		feedback.BatchID = id
 	} else {
-		render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID must be string")))
+		err := render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID must be string")))
+		if err != nil {
+			fmt.Printf("Error rendering", err)
+		}
 		return
 	}
 	if err := render.Bind(r, feedback); err != nil {
-		render.Render(w, r, ErrorBadRequest(err))
+		err := render.Render(w, r, ErrorBadRequest(err))
+		if err != nil {
+			fmt.Printf("Error rendering", err)
+		}
 		return
 	}
 	if err := producer.UpdateBatch(feedback); err != nil {
-		render.Render(w, r, ErrorRenderer(err))
+		err := render.Render(w, r, ErrorRenderer(err))
+		if err != nil {
+			fmt.Printf("Error rendering", err)
+		}
 		return
 	}
 	if err := render.Render(w, r, feedback); err != nil {
-		render.Render(w, r, ServerErrorRenderer(err))
+		err := render.Render(w, r, ServerErrorRenderer(err))
+		if err != nil {
+			fmt.Printf("Error rendering", err)
+		}
 		return
 	}
 }

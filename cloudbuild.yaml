@@ -19,7 +19,7 @@ steps:
   # Check code for security issues
   - id: 'security'
     name: "securego/gosec"
-    args: ["helloworld"]
+    args: ["."]
     env: ["GOPATH=."]
 
   # Build the container image
