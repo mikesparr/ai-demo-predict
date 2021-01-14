@@ -14,11 +14,13 @@ steps:
   - id: 'test'
     name: "gcr.io/cloud-builders/go"
     args: ["test"]
+    env: ["PROJECT_ROOT=."]
   
   # Check code for security issues
   - id: 'security'
     name: "securego/gosec"
     args: ["."]
+    env: ["PROJECT_ROOT=."]
 
   # Build the container image
   - id: 'build'
