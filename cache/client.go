@@ -20,7 +20,8 @@ func Initialize(redisAddr string, maxConnections int) (Client, error) {
 	client := Client{}
 
 	redisPool = &redis.Pool{
-		MaxIdle:     3,
+		MaxIdle:     2,
+		MaxActive:   maxConnections,
 		IdleTimeout: 60 * time.Second,
 		Dial: func() (redis.Conn, error) {
 			return redis.Dial("tcp", redisAddr)

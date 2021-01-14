@@ -14,13 +14,11 @@ steps:
   - id: 'test'
     name: "gcr.io/cloud-builders/go"
     args: ["test"]
-    env: ["GOPATH=."]
   
   # Check code for security issues
   - id: 'security'
     name: "securego/gosec"
     args: ["."]
-    env: ["GOPATH=."]
 
   # Build the container image
   - id: 'build'
