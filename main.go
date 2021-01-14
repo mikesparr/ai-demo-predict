@@ -18,6 +18,7 @@ import (
 func main() {
 	// server
 	addr := ":8080"
+	/* #nosec */
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("Error occurred: %s", err.Error())
