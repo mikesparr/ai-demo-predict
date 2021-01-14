@@ -50,7 +50,10 @@ func main() {
 		Handler: httpHandler,
 	}
 	go func() {
-		server.Serve(listener)
+		err := server.Serve(listener)
+		if err != nil {
+			log.Printf("Error starting the server %v\n", err)
+		}
 	}()
 	defer Stop(server)
 	log.Printf("Started server on %s", addr)

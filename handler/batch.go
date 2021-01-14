@@ -25,7 +25,10 @@ func BatchContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		batchId := chi.URLParam(r, "batchId")
 		if batchId == "" {
-			render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID is required")))
+			err := render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID is required")))
+			if err != nil {
+				fmt.Println("Error rendering")
+			}
 			return
 		}
 		ctx := context.WithValue(r.Context(), batchIDKey, batchId)
@@ -37,11 +40,17 @@ func getAllBatches(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Fetching all batches")
 	batches, err := client.GetAllBatches()
 	if err != nil {
-		render.Render(w, r, ServerErrorRenderer(err))
+		err := render.Render(w, r, ServerErrorRenderer(err))
+		if err != nil {
+			fmt.Println("Error rendering")
+		}
 		return
 	}
 	if err := render.Render(w, r, batches); err != nil {
-		render.Render(w, r, ErrorRenderer(err))
+		err := render.Render(w, r, ErrorRenderer(err))
+		if err != nil {
+			fmt.Println("Error rendering")
+		}
 		return
 	}
 }
@@ -58,28 +67,28 @@ func updateBatch(w http.ResponseWriter, r *http.Request) {
 	} else {
 		err := render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID must be string")))
 		if err != nil {
-			fmt.Printf("Error rendering", err)
+			fmt.Println("Error rendering")
 		}
 		return
 	}
 	if err := render.Bind(r, feedback); err != nil {
 		err := render.Render(w, r, ErrorBadRequest(err))
 		if err != nil {
-			fmt.Printf("Error rendering", err)
+			fmt.Println("Error rendering")
 		}
 		return
 	}
 	if err := producer.UpdateBatch(feedback); err != nil {
 		err := render.Render(w, r, ErrorRenderer(err))
 		if err != nil {
-			fmt.Printf("Error rendering", err)
+			fmt.Println("Error rendering")
 		}
 		return
 	}
 	if err := render.Render(w, r, feedback); err != nil {
 		err := render.Render(w, r, ServerErrorRenderer(err))
 		if err != nil {
-			fmt.Printf("Error rendering", err)
+			fmt.Println("Error rendering")
 		}
 		return
 	}
