@@ -8,6 +8,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+// GetAllJobs fetches training jobs from cache
 func (client Client) GetAllJobs() (*models.JobList, error) {
 	fmt.Println("Fetching training jobs !!!")
 

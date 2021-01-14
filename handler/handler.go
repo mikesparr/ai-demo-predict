@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
@@ -38,10 +39,16 @@ func NewHandler(c cache.Client, p message.Producer) http.Handler {
 func methodNotAllowedHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(405)
-	render.Render(w, r, ErrMethodNotAllowed)
+	err := render.Render(w, r, ErrMethodNotAllowed)
+	if err != nil {
+		fmt.Println("Error rendering")
+	}
 }
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(400)
-	render.Render(w, r, ErrNotFound)
+	err := render.Render(w, r, ErrNotFound)
+	if err != nil {
+		fmt.Println("Error rendering")
+	}
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+// GetAllBatches fetches batches from cache
 func (client Client) GetAllBatches() (*models.BatchList, error) {
 	fmt.Println("Fetching batches of predictions !!!")
 

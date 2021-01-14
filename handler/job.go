@@ -16,11 +16,17 @@ func getAllJobs(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Fetching all jobs")
 	jobs, err := client.GetAllJobs()
 	if err != nil {
-		render.Render(w, r, ServerErrorRenderer(err))
+		err := render.Render(w, r, ServerErrorRenderer(err))
+		if err != nil {
+			fmt.Println("Error rendering")
+		}
 		return
 	}
 	if err := render.Render(w, r, jobs); err != nil {
-		render.Render(w, r, ErrorRenderer(err))
+		err := render.Render(w, r, ErrorRenderer(err))
+		if err != nil {
+			fmt.Println("Error rendering")
+		}
 		return
 	}
 }
