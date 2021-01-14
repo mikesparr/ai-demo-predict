@@ -14,7 +14,7 @@ steps:
   - id: 'test'
     name: "gcr.io/cloud-builders/go"
     args: ["test"]
-    env: ["GOPATH=."]
+    env: ["GOPATH=/fakepath"]
   
   # Check code for security issues
   - id: 'security'
