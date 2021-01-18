@@ -13,7 +13,8 @@ import (
 
 type key int
 
-const batchIDKey key = iota
+const batchIDPathKey = "batchId"
+const batchCtxKey key = iota
 
 func batches(router chi.Router) {
 	router.Get("/", getAllBatches)
@@ -23,10 +24,10 @@ func batches(router chi.Router) {
 	})
 }
 
-// BatchContext handles input parameters
+// BatchContext handle input parameters
 func BatchContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		batchID := chi.URLParam(r, "batchId")
+		batchID := chi.URLParam(r, batchIDPathKey)
 		if batchID == "" {
 			err := render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID is required")))
 			if err != nil {
@@ -34,7 +35,7 @@ func BatchContext(next http.Handler) http.Handler {
 			}
 			return
 		}
-		ctx := context.WithValue(r.Context(), batchIDKey, batchID)
+		ctx := context.WithValue(r.Context(), batchCtxKey, batchID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -59,7 +60,7 @@ func getAllBatches(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateBatch(w http.ResponseWriter, r *http.Request) {
-	batchID := r.Context().Value(batchIDKey)
+	batchID := r.Context().Value(batchCtxKey)
 	fmt.Printf("Updating batch (%s) with prediction ratings\n", batchID)
 
 	feedback := &models.BatchFeedback{}
