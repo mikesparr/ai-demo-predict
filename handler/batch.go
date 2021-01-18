@@ -11,10 +11,10 @@ import (
 	"github.com/go-chi/render"
 )
 
-type key int
+type key string
 
-const batchIDPathKey = "batchId"
-const batchCtxKey key = iota
+const batchIDKey = "batchId"
+const ctxKey key = "batchId"
 
 func batches(router chi.Router) {
 	router.Get("/", getAllBatches)
@@ -27,7 +27,7 @@ func batches(router chi.Router) {
 // BatchContext handle input parameters
 func BatchContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		batchID := chi.URLParam(r, batchIDPathKey)
+		batchID := chi.URLParam(r, batchIDKey)
 		if batchID == "" {
 			err := render.Render(w, r, ErrorRenderer(fmt.Errorf("batch ID is required")))
 			if err != nil {
@@ -35,7 +35,7 @@ func BatchContext(next http.Handler) http.Handler {
 			}
 			return
 		}
-		ctx := context.WithValue(r.Context(), batchCtxKey, batchID)
+		ctx := context.WithValue(r.Context(), ctxKey, batchID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -60,7 +60,7 @@ func getAllBatches(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateBatch(w http.ResponseWriter, r *http.Request) {
-	batchID := r.Context().Value(batchCtxKey)
+	batchID := r.Context().Value(ctxKey)
 	fmt.Printf("Updating batch (%s) with prediction ratings\n", batchID)
 
 	feedback := &models.BatchFeedback{}
